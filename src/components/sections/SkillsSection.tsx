@@ -1,40 +1,45 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { Section } from "@/components/ui/Section";
 import { skills } from "@/data/portfolio";
-import { useDeviceProfile } from "@/hooks/useDeviceProfile";
 
-const SkillsSphere = dynamic(() => import("@/components/3d/SkillsSphereScene"), {
-  ssr: false,
-  loading: () => <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />,
-});
+const skillGroups = [
+  { title: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
+  { title: "Backend", items: ["Node.js", "Express", "NestJS", "Laravel"] },
+  { title: "Data & Cloud", items: ["PostgreSQL", "MySQL", "MongoDB", "Docker"] },
+];
 
 export function SkillsSection() {
-  const { disable3D } = useDeviceProfile();
 
   return (
-    <Section id="skills" subtitle="Capabilities" title="Tools and technologies I ship with.">
-      <div className="grid items-center gap-8 md:grid-cols-[1.1fr,1fr]">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {skills.map((skill) => (
-            <span key={skill} className="rounded-full border border-white/12 bg-white/[0.03] px-4 py-2 text-sm text-slate-200">
-              {skill}
-            </span>
+    <Section id="skills" tone="secondary" subtitle="Capabilities" title="A practical stack for modern product delivery.">
+      <div className="grid gap-5 md:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {skillGroups.map((group) => (
+            <div key={group.title} className="rounded-[1.75rem] border border-[#3F72AF]/18 bg-white/95 p-5 shadow-[0_14px_40px_rgba(63,114,175,0.08)]">
+              <p className="text-xs uppercase tracking-[0.22em] text-[#3F72AF]">{group.title}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span key={item} className="rounded-full border border-[#3F72AF]/15 bg-[#DBE2EF]/50 px-3 py-1.5 text-sm text-[#112D4E]">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
-        <div className="h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#090e1d]">
-          {disable3D ? (
-            <div className="flex h-full flex-wrap content-center justify-center gap-2 p-5">
-              {skills.slice(0, 8).map((skill) => (
-                <span key={skill} className="rounded-full border border-cyan-300/30 px-3 py-1 text-xs text-cyan-100">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <SkillsSphere tags={skills} />
-          )}
+        <div className="rounded-[1.75rem] border border-[#3F72AF]/18 bg-white/95 p-6 shadow-[0_14px_40px_rgba(63,114,175,0.08)]">
+          <p className="text-xs uppercase tracking-[0.22em] text-[#3F72AF]">Toolbox</p>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {skills.map((skill) => (
+              <span key={skill} className="rounded-full border border-[#3F72AF]/15 bg-[#DBE2EF]/45 px-4 py-2 text-sm text-[#112D4E]">
+                {skill}
+              </span>
+            ))}
+          </div>
+          <div className="mt-6 rounded-[1.5rem] border border-[#3F72AF]/10 bg-[#DBE2EF]/45 p-4 text-sm leading-6 text-[#112D4E]/80">
+            Focused on shipping reliable interfaces, scalable APIs, and maintainable systems without overcomplicating the stack.
+          </div>
         </div>
       </div>
     </Section>
